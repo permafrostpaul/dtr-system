@@ -2,6 +2,10 @@
 
 return [
 
+    
+    'failed' => 'These credentials do not match our records.',
+    'pending' => 'Your account is still pending. Please wait for confirmation.',
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

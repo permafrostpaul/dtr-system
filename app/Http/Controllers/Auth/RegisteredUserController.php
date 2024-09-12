@@ -27,24 +27,38 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
+
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        $validatedData = $request->validate([
+            'employeeid' => 'required|string|max:255|unique:users',
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'workstation' => 'required|string|max:255',
+            'contactnumber' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'employeeid' => $validatedData['employeeid'],
+            'firstname' => $validatedData['firstname'],
+            'middlename' => $validatedData['middlename'] ?? null, // Handle nullable field
+            'lastname' => $validatedData['lastname'],
+            'workstation' => $validatedData['workstation'],
+            'contactnumber' => $validatedData['contactnumber'],
+            'address' => $validatedData['address'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'status' => 'pending', // Set status to 'pending'
         ]);
 
+        
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('login')->with('status', 'Account created successfully. Please wait for activation.');
     }
 }

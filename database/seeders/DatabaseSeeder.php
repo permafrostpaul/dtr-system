@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Event;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +13,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Seed users
         User::factory()->create([
-            'name' => 'Test User',
+            'lastname' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Seed events
+        Event::create([
+            'title' => 'Sample Event 1',
+            'description' => 'This is a description for Sample Event 1.',
+            'start_date' => '2024-08-27',
+            'end_date' => '2024-08-27',
+        ]);
+
+        Event::create([
+            'title' => 'Sample Event 2',
+            'description' => 'This is a description for Sample Event 2.',
+            'start_date' => '2024-09-01',
+            'end_date' => '2024-09-01',
+        ]);
+
+        // Add more events as needed
     }
 }

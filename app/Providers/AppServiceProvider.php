@@ -19,6 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        app('router')->aliasMiddleware('role', \App\Http\Middleware\CheckRole::class);
     }
 }
